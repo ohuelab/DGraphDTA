@@ -33,4 +33,89 @@ and the parameters are dataset selection, gpu selection.
 
 Beacuse our memory limitation, only 8 combinations were fitted for the best result. It is worth mentioning that if more model combinations were explored, there may be better results.
 
+## build environment
+
+root権限がないとき
+
+### gcc
+PyG (torch-geometric) == 1.3.2 にはgcc5.4.0以上が必要
+gcc --version
+
+[【CentOS7】gccをソースからインストール](https://www.server-memo.net/memo/gcc-install.html) 等を参照するとできる。
+
+\```bash
+$ curl -LO https://ftp.gnu.org/gnu/gcc/gcc-5.4.0/gcc-5.4.0.tar.gz
+$ tar xzfv gcc-5.4.0.tar.gz -C $HOME/local/src
+$ cd $HOME/local/src/gcc-5.4.0
+$ ./contrib/download_prerequisites
+ mkdir build
+$ cd build
+$ ../configure --enable-languages=c,c++ --prefix=$HOME/local --disable-bootstrap --disable-multilib
+$ make
+$ make install
+\```
+
+以上でインストールは完了。以下でバージョンを確認できる
+
+\```bash
+$ $HOME/local/bin/gcc --version
+\```
+
+「~/.bash_profile」に「LD_LIBRARY_PATH」の設定を追加することで、ユーザがログインする際に設定が読み込まれるようになる。
+
+\```bash
+$ cd
+$ vim .bash_profile
+\```
+
+\```
+export PATH=$HOME/local/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/local/lib64/:$LD_LIBRARY_PATH
+\```
+
+### rdkit
+
+condaをインストールするだけ
+[記事](https://qiita.com/bono0/items/eca6f2f5c8eb44080a03)を参照するとできる。
+
+\```bash
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+$ chmod +x Miniconda3-latest-Linux-x86_64.sh
+$ ./Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/local
+\```
+
+ただし、インストールされるのが最新のpythonなので、ダウングレードが必要
+
+\```bash
+$ conda install python=3.7
+$ conda install -c rdkit rdkit
+\```
+
+pythonスクリプトでパスを通せばrdkitが導入完了(python scriptなので$HOMEはエラー起きるので置換すること)
+
+\```python
+import sys
+sys.path.append('$HOME/local/lib/python3.7/site-packages/')
+\```
+
+### gnnのインストール
+
+[記事](https://qiita.com/omiita/items/429136c2f4e228d745ed)の通りにする。
+適宜 --user オプションを利用すること
+
+\```bash
+$ pip install --verbose --no-cache-dir torch-scatter
+$ pip install --verbose --no-cache-dir torch-sparse
+$ pip install --verbose --no-cache-dir torch-cluster
+$ pip install --verbose --no-cache-dir torch-spline-conv (optional)
+$ pip install torch-geometric
+\```
+
+### その他
+
+rdkit関係でエラーが出ることがある。 ~/.bash_profile に以下を書くと直る
+
+export LD_LIBRARY_PATH=$HOME/local/lib/python3.7/site-packages/rdkit/DataStructs/../../../../:$LD_LIBRARY_PATH
+
+
 
