@@ -39,6 +39,7 @@ root権限がないとき
 
 ### gcc
 PyG (torch-geometric) == 1.3.2 にはgcc5.4.0以上が必要
+
 gcc --version
 
 [【CentOS7】gccをソースからインストール](https://www.server-memo.net/memo/gcc-install.html) 等を参照するとできる。
@@ -76,6 +77,7 @@ export LD_LIBRARY_PATH=$HOME/local/lib64/:$LD_LIBRARY_PATH
 ### rdkit
 
 condaをインストールするだけ
+
 [記事](https://qiita.com/bono0/items/eca6f2f5c8eb44080a03)を参照するとできる。
 
 ```bash
