@@ -43,7 +43,7 @@ gcc --version
 
 [【CentOS7】gccをソースからインストール](https://www.server-memo.net/memo/gcc-install.html) 等を参照するとできる。
 
-\```bash
+```bash
 $ curl -LO https://ftp.gnu.org/gnu/gcc/gcc-5.4.0/gcc-5.4.0.tar.gz
 $ tar xzfv gcc-5.4.0.tar.gz -C $HOME/local/src
 $ cd $HOME/local/src/gcc-5.4.0
@@ -53,63 +53,63 @@ $ cd build
 $ ../configure --enable-languages=c,c++ --prefix=$HOME/local --disable-bootstrap --disable-multilib
 $ make
 $ make install
-\```
+```
 
 以上でインストールは完了。以下でバージョンを確認できる
 
-\```bash
+```bash
 $ $HOME/local/bin/gcc --version
-\```
+```
 
 「~/.bash_profile」に「LD_LIBRARY_PATH」の設定を追加することで、ユーザがログインする際に設定が読み込まれるようになる。
 
-\```bash
+```bash
 $ cd
 $ vim .bash_profile
-\```
+```
 
-\```
+```
 export PATH=$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib64/:$LD_LIBRARY_PATH
-\```
+```
 
 ### rdkit
 
 condaをインストールするだけ
 [記事](https://qiita.com/bono0/items/eca6f2f5c8eb44080a03)を参照するとできる。
 
-\```bash
+```bash
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ chmod +x Miniconda3-latest-Linux-x86_64.sh
 $ ./Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/local
-\```
+```
 
 ただし、インストールされるのが最新のpythonなので、ダウングレードが必要
 
-\```bash
+```bash
 $ conda install python=3.7
 $ conda install -c rdkit rdkit
-\```
+```
 
 pythonスクリプトでパスを通せばrdkitが導入完了(python scriptなので$HOMEはエラー起きるので置換すること)
 
-\```python
+```python
 import sys
 sys.path.append('$HOME/local/lib/python3.7/site-packages/')
-\```
+```
 
 ### gnnのインストール
 
 [記事](https://qiita.com/omiita/items/429136c2f4e228d745ed)の通りにする。
 適宜 --user オプションを利用すること
 
-\```bash
+```bash
 $ pip install --verbose --no-cache-dir torch-scatter
 $ pip install --verbose --no-cache-dir torch-sparse
 $ pip install --verbose --no-cache-dir torch-cluster
 $ pip install --verbose --no-cache-dir torch-spline-conv (optional)
 $ pip install torch-geometric
-\```
+```
 
 ### その他
 
